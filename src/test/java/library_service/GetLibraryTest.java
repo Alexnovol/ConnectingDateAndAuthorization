@@ -5,22 +5,12 @@ import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Story;
 import io.restassured.response.Response;
-import models.get.GettingAuthorsBooksRq;
-import models.get.GettingAuthorsBooksRs;
-import models.get.GettingAuthorsBooksXmlRq;
-import models.get.GettingAuthorsBooksXmlRs;
+import models.get.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.params.provider.ValueSource;
 import steps.requestSteps.RequestSender;
-import utils.DataHelper;
+import java.util.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Stream;
 
 import static steps.asserts.GetLibraryEndpoint.*;
 import static steps.asserts.GetLibraryEndpoint.checkStatusCodeGetBooksJson;
@@ -48,6 +38,12 @@ public class GetLibraryTest {
         expectedList.add(expectedModel);
 
         List<GettingAuthorsBooksRs> actualList = getBooksJsonResponse(request);
+        List<String> updatedList = new ArrayList<>();
+        actualList.forEach(model -> updatedList.add(model.getBook().getUpdated()));
+
+        shouldConformTemplate(updatedList);
+
+        actualList.forEach(model -> model.getBook().setUpdated(null));
 
         shouldBeEquals(actualList, expectedList);
 
@@ -68,6 +64,14 @@ public class GetLibraryTest {
 
         GettingAuthorsBooksXmlRs actualModel = getBooksXmlResponse(new GettingAuthorsBooksXmlRq(author))
                 .as(GettingAuthorsBooksXmlRs.class);
+
+        List<String> updatedList = new ArrayList<>();
+
+        actualModel.getBooks().forEach(book -> updatedList.add(book.getUpdated()));
+
+        shouldConformTemplate(updatedList);
+
+        actualModel.getBooks().forEach(book -> book.setUpdated(null));
 
         shouldBeEquals(actualModel, expectedModel);
 
@@ -122,7 +126,7 @@ public class GetLibraryTest {
 
         checkStatusCode(response, 400);
 
-        commonErrorMessageShouldBeEquals(response, 1001);
+        commonErrorMessageShouldBeEquals(response, 1001, "Не передан id автора");
 
     }
 
@@ -136,9 +140,9 @@ public class GetLibraryTest {
 
         Response response = getBooksXmlResponse(request);
 
-        checkStatusCode(response, 400);
+        checkStatusCode(response, 409);
 
-        commonErrorMessageShouldBeEquals(response, 1004);
+        commonErrorMessageShouldBeEquals(response, 1004, "Указанный автор не существует в таблице");
     }
 
     @Test
@@ -153,11 +157,11 @@ public class GetLibraryTest {
 
         GettingAuthorsBooksRs actualModel = books.get(0);
 
-        checkStatusCodeGetBooksJson(actualModel, 400);
+        checkStatusCodeGetBooksJson(actualModel, 409);
 
         GettingAuthorsBooksRs expectedModel = new GettingAuthorsBooksRs();
         expectedModel.setBook(new GettingAuthorsBooksRs.Book(0, null, null));
-        expectedModel.setStatusCode(400);
+        expectedModel.setStatusCode(409);
         expectedModel.setErrorCode(1004);
         expectedModel.setErrorMessage("Указанный автор не существует в таблице");
 
@@ -169,7 +173,6 @@ public class GetLibraryTest {
     @DisplayName("Получение книг в формате Json при передаче пустого Id. Негативный кейс")
     @Description("Сервис вернул ошибку и Http код 400")
     public void getBooksJsonWithEmptyId() {
-
         GettingAuthorsBooksRq request = new GettingAuthorsBooksRq();
 
         List<GettingAuthorsBooksRs> books = RequestSender.getBooksJsonResponse(request);

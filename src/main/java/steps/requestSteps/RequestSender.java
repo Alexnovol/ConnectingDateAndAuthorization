@@ -61,4 +61,16 @@ public class RequestSender {
                 .when()
                 .post();
     }
+
+    public static String getTokenResponse() {
+
+        return given()
+                .spec(RequestBuilder.getTokenSpec())
+                .when()
+                .get()
+                .asString()
+                .substring(13)
+                .replaceAll("\"", "")
+                .replaceAll("}", "");
+    }
 }

@@ -10,6 +10,8 @@ import lombok.*;
 @Setter
 @EqualsAndHashCode
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class GettingAuthorsBooksRs {
     @JsonUnwrapped
     private Book book;
@@ -30,6 +32,13 @@ public class GettingAuthorsBooksRs {
         private long id;
         private String bookTitle;
         private Author author;
+        private String updated;
+
+        public Book(long id, String bookTitle, Author author) {
+            this.id = id;
+            this.bookTitle = bookTitle;
+            this.author = author;
+        }
 
     }
 

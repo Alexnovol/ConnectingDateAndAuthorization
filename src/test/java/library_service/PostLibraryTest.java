@@ -4,7 +4,6 @@ import entity.Author;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Story;
-import io.restassured.internal.RestAssuredResponseImpl;
 import io.restassured.response.Response;
 import models.post.SavingNewBookRq;
 import models.post.SavingNewBookRs;
@@ -48,7 +47,7 @@ public class PostLibraryTest {
 
         checkStatusCode(response, 400);
 
-        commonErrorMessageShouldBeEquals(response, 1001);
+        commonErrorMessageShouldBeEquals(response, 1001, null);
 
     }
 
@@ -64,7 +63,7 @@ public class PostLibraryTest {
 
         checkStatusCode(response, 400);
 
-        commonErrorMessageShouldBeEquals(response, 1001);
+        commonErrorMessageShouldBeEquals(response, 1001, null);
     }
 
     @Test
@@ -77,7 +76,7 @@ public class PostLibraryTest {
 
         checkStatusCode(response, 400);
 
-        commonErrorMessageShouldBeEquals(response, 1001);
+        commonErrorMessageShouldBeEquals(response, 1001, null);
     }
 
     @Test
@@ -90,7 +89,7 @@ public class PostLibraryTest {
 
         checkStatusCode(response, 400);
 
-        commonErrorMessageShouldBeEquals(response, 1001);
+        commonErrorMessageShouldBeEquals(response, 1001, null);
     }
 
     @Test
@@ -103,7 +102,7 @@ public class PostLibraryTest {
 
         checkStatusCode(response, 409);
 
-        commonErrorMessageShouldBeEquals(response, 1004);
+        commonErrorMessageShouldBeEquals(response, 1004, "Указанный автор не существует в таблице");
     }
 
     @Test
@@ -120,7 +119,7 @@ public class PostLibraryTest {
 
         checkStatusCode(response2, 400);
 
-        commonErrorMessageShouldBeEquals(response2, 1001);
+        commonErrorMessageShouldBeEquals(response2, 1001, null);
     }
 
     @Test
@@ -135,6 +134,6 @@ public class PostLibraryTest {
 
         checkStatusCode(response, 400);
 
-        commonErrorMessageShouldBeEquals(response, 1001);
+        commonErrorMessageShouldBeEquals(response, 1001, null);
     }
 }

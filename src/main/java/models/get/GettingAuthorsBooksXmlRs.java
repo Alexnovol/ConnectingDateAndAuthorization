@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import entity.Author;
 import jakarta.xml.bind.annotation.*;
 import lombok.*;
-
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -36,6 +35,13 @@ public class GettingAuthorsBooksXmlRs {
         @XmlElement(name = "book_title")
         private String bookTitle;
         private Author author;
+        private String updated;
+
+        public Book(long id, String bookTitle, Author author) {
+            this.id = id;
+            this.bookTitle = bookTitle;
+            this.author = author;
+        }
 
     }
 }

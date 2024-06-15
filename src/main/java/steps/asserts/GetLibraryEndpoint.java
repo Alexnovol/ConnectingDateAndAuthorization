@@ -1,8 +1,9 @@
 package steps.asserts;
 
-import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import models.get.GettingAuthorsBooksRs;
+
+import java.util.List;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -26,7 +27,7 @@ public class GetLibraryEndpoint {
         assertEquals(statusCode, actualModel.getStatusCode());
     }
 
-    public static void commonErrorMessageShouldBeEquals(Response response, int code) {
+    public static void commonErrorMessageShouldBeEquals(Response response, int code, String message) {
 
         response
                 .then()
@@ -34,16 +35,27 @@ public class GetLibraryEndpoint {
                 .body("errorCode", equalTo(code))
                 .body("$", hasKey("errorDetails"));
 
-        if (code == 1004) {
+        if (message != null) {
+
             response
                     .then()
                     .assertThat()
-                    .body("errorMessage", equalTo("Указанный автор не существует в таблице"));
+                    .body("errorMessage", equalTo(message));
         } else {
+
             response
                     .then()
                     .assertThat()
                     .body("$", hasKey("errorMessage"));
         }
+    }
+
+    public static void shouldConformTemplate(List<String> updatedList) {
+        List<String> filteredList = updatedList
+                .stream()
+                .filter(updated -> updated.matches("\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d+\\+00:00"))
+                .toList();
+
+        assertEquals(updatedList, filteredList);
     }
 }

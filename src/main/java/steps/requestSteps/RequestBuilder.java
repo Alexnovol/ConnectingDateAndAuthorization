@@ -6,6 +6,7 @@ import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 import models.get.GettingAuthorsBooksRq;
 import models.get.GettingAuthorsBooksXmlRq;
+import models.get.GettingToken;
 import models.post.SavingNewAuthorRq;
 import models.post.SavingNewBookRq;
 
@@ -16,6 +17,7 @@ public class RequestBuilder {
         return new RequestSpecBuilder()
                 .setBaseUri("http://localhost:8080/library")
                 .setContentType(ContentType.JSON)
+                .addHeader("Authorization", "Bearer " + RequestSender.getTokenResponse())
                 .addFilter(new ResponseLoggingFilter())
                 .addFilter(new RequestLoggingFilter());
     }
@@ -48,6 +50,17 @@ public class RequestBuilder {
 
         return commonSpecBuilder()
                 .setBasePath("books/save")
+                .setBody(request)
+                .build();
+    }
+
+    public static RequestSpecification getTokenSpec() {
+        GettingToken request = new GettingToken("master_log", "qweasdzxc");
+
+        return new RequestSpecBuilder()
+                .setBaseUri("http://localhost:8080")
+                .setBasePath("auth/login")
+                .setContentType(ContentType.JSON)
                 .setBody(request)
                 .build();
     }

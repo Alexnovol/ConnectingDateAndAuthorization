@@ -1,7 +1,6 @@
 package steps.asserts;
 
 import io.restassured.response.Response;
-import org.junit.jupiter.api.Assertions;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasKey;
@@ -21,7 +20,7 @@ public class PostLibraryEndpoint {
                 .statusCode(statusCode);
     }
 
-    public static void commonErrorMessageShouldBeEquals(Response response, int code) {
+    public static void commonErrorMessageShouldBeEquals(Response response, int code, String message) {
 
         response
                 .then()
@@ -29,12 +28,14 @@ public class PostLibraryEndpoint {
                 .body("errorCode", equalTo(code))
                 .body("$", hasKey("errorDetails"));
 
-        if (code == 1004) {
+        if (message != null) {
+
             response
                     .then()
                     .assertThat()
-                    .body("errorMessage", equalTo("Указанный автор не существует в таблице"));
+                    .body("errorMessage", equalTo(message));
         } else {
+
             response
                     .then()
                     .assertThat()

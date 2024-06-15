@@ -19,10 +19,13 @@ public class Author {
     private String familyName;
     @XmlElement(name = "second_name")
     private String secondName;
+    @XmlElement(name = "birth_date")
+    private String birthDate;
 
-    public Author(long id, String firstName, String familyName) {
+    public Author(long id, String firstName, String familyName, String secondName) {
         this.id = id;
         this.firstName = firstName;
         this.familyName = familyName;
+        this.secondName = secondName;
     }
 }
