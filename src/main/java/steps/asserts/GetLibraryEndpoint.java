@@ -27,7 +27,7 @@ public class GetLibraryEndpoint {
         assertEquals(statusCode, actualModel.getStatusCode());
     }
 
-    public static void commonErrorMessageShouldBeEquals(Response response, int code, String message) {
+    public static void commonErrorMessageShouldBeEquals(Response response, String code, String message) {
 
         response
                 .then()

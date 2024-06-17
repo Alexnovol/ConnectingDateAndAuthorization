@@ -47,7 +47,7 @@ public class PostLibraryTest {
 
         checkStatusCode(response, 400);
 
-        commonErrorMessageShouldBeEquals(response, 1001, null);
+        commonErrorMessageShouldBeEquals(response, "1001", null);
 
     }
 
@@ -63,7 +63,7 @@ public class PostLibraryTest {
 
         checkStatusCode(response, 400);
 
-        commonErrorMessageShouldBeEquals(response, 1001, null);
+        commonErrorMessageShouldBeEquals(response, "1001", null);
     }
 
     @Test
@@ -76,7 +76,7 @@ public class PostLibraryTest {
 
         checkStatusCode(response, 400);
 
-        commonErrorMessageShouldBeEquals(response, 1001, null);
+        commonErrorMessageShouldBeEquals(response, "1001", null);
     }
 
     @Test
@@ -89,7 +89,7 @@ public class PostLibraryTest {
 
         checkStatusCode(response, 400);
 
-        commonErrorMessageShouldBeEquals(response, 1001, null);
+        commonErrorMessageShouldBeEquals(response, "1001", null);
     }
 
     @Test
@@ -102,7 +102,7 @@ public class PostLibraryTest {
 
         checkStatusCode(response, 409);
 
-        commonErrorMessageShouldBeEquals(response, 1004, "Указанный автор не существует в таблице");
+        commonErrorMessageShouldBeEquals(response, "1004", "Указанный автор не существует в таблице");
     }
 
     @Test
@@ -119,7 +119,7 @@ public class PostLibraryTest {
 
         checkStatusCode(response2, 400);
 
-        commonErrorMessageShouldBeEquals(response2, 1001, null);
+        commonErrorMessageShouldBeEquals(response2, "1001", null);
     }
 
     @Test
@@ -134,6 +134,6 @@ public class PostLibraryTest {
 
         checkStatusCode(response, 400);
 
-        commonErrorMessageShouldBeEquals(response, 1001, null);
+        commonErrorMessageShouldBeEquals(response, "1001", null);
     }
 }

@@ -126,7 +126,7 @@ public class GetLibraryTest {
 
         checkStatusCode(response, 400);
 
-        commonErrorMessageShouldBeEquals(response, 1001, "Не передан id автора");
+        commonErrorMessageShouldBeEquals(response, "1001", "Не передан id автора");
 
     }
 
@@ -142,7 +142,7 @@ public class GetLibraryTest {
 
         checkStatusCode(response, 409);
 
-        commonErrorMessageShouldBeEquals(response, 1004, "Указанный автор не существует в таблице");
+        commonErrorMessageShouldBeEquals(response, "1004", "Указанный автор не существует в таблице");
     }
 
     @Test
